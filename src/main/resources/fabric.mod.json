@@ -1,0 +1,30 @@
+{
+	"schemaVersion": 1,
+	"id": "enchantments-plus",
+	"version": "${version}",
+	"name": "Enchantments Plus",
+	"description": "Adds a small set of unique, balanced and configurable vanilla-friendly enchantments.",
+	"authors": [
+		"João"
+	],
+	"license": "CC0-1.0",
+	"icon": "assets/enchantments-plus/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"pt.joao.enchantmentsplus.EnchantmentsPlus"
+		],
+		"client": [
+			"pt.joao.enchantmentsplus.client.EnchantmentsPlusClient"
+		],
+		"fabric-datagen": [
+			"pt.joao.enchantmentsplus.client.EnchantmentsPlusDataGenerator"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

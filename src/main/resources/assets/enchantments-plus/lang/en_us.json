@@ -1,0 +1,13 @@
+{
+	"enchantment.enchantments-plus.wither": "Wither",
+	"enchantment.enchantments-plus.vampirism": "Vampirism",
+	"enchantment.enchantments-plus.storm": "Storm",
+	"enchantment.enchantments-plus.crush": "Crush",
+
+	"hud.enchantments-plus.seconds": "%ss",
+	"hud.enchantments-plus.counter": "x%s",
+	"hud.enchantments-plus.state.ready": "Ready",
+	"hud.enchantments-plus.state.charging": "Charging",
+	"hud.enchantments-plus.state.active": "Active",
+	"hud.enchantments-plus.state.cooldown": "Cooldown"
+}

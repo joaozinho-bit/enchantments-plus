@@ -6,6 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.joao.enchantmentsplus.config.ConfigManager;
 import pt.joao.enchantmentsplus.effect.TimedEffectManager;
+import pt.joao.enchantmentsplus.enchantment.CrushEnchantment;
+import pt.joao.enchantmentsplus.enchantment.StormEnchantment;
+import pt.joao.enchantmentsplus.enchantment.VampirismEnchantment;
+import pt.joao.enchantmentsplus.enchantment.WitherEnchantment;
+import pt.joao.enchantmentsplus.event.AttackEvents;
+import pt.joao.enchantmentsplus.event.EntityEvents;
+import pt.joao.enchantmentsplus.networking.HudSync;
 import pt.joao.enchantmentsplus.registry.ModEnchantments;
 
 /**
@@ -31,6 +38,20 @@ public class EnchantmentsPlus implements ModInitializer {
 
 		// Server-side systems, shared by singleplayer and multiplayer.
 		TimedEffectManager.init();
+
+		// Payload types must exist on both sides, so they are declared here
+		// rather than in the client entry point.
+		HudSync.init();
+
+		// One line per enchantment: it registers its own configuration here.
+		WitherEnchantment.init();
+		VampirismEnchantment.init();
+		StormEnchantment.init();
+		CrushEnchantment.init();
+
+		// Gameplay listeners, grouped by the kind of event they react to.
+		AttackEvents.init();
+		EntityEvents.init();
 
 		// Enchantments register their config before this call; load() then reads
 		// the file and writes back any missing defaults.

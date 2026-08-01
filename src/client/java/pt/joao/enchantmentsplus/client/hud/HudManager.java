@@ -1,52 +1,53 @@
 package pt.joao.enchantmentsplus.client.hud;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.DrawContext;
+import pt.joao.enchantmentsplus.hud.HudValue;
+import pt.joao.enchantmentsplus.networking.HudSync;
 
 /**
- * Owns the whole HUD: enchantments register a {@link HudIndicator} once and this
- * class takes care of collecting, ordering, capping and drawing them.
+ * Wires the HUD together and decides what actually reaches the screen.
  *
- * <p>The manager subscribes to Fabric's {@link HudRenderCallback}, so no mixin
- * is needed. Adding a new indicator never requires touching the drawing code.
+ * <p>It owns the lifecycle (events and packet handlers) and the selection step:
+ * {@link HudState} says what exists and in which order, this class applies the
+ * player's preferences and the visible-count limit, and {@link HudRenderer}
+ * draws whatever survives. Splitting it this way is what keeps "how many, and
+ * which ones" out of the drawing code.
+ *
+ * <p>Everything here reacts to events &mdash; no enchantment is ever polled,
+ * and a frame with an empty HUD costs a single emptiness check.
  */
 public final class HudManager {
 
-	/** Upper bound on how many indicators are drawn at once, to keep the screen clean. */
-	private static final int MAX_VISIBLE = 4;
-
-	private static final int MARGIN = 4;
-	private static final int LINE_GAP = 2;
-	private static final int TEXT_COLOR = 0xFFFFFFFF;
-
-	private static final List<HudIndicator> INDICATORS = new ArrayList<>();
+	/** Reused between frames so a frame never allocates a selection list. */
+	private static final List<HudState.Entry> VISIBLE = new ArrayList<>();
 
 	private HudManager() {
 	}
 
-	/** Registers the {@link HudRenderCallback} listener. Call once from client init. */
+	/** Registers the render, tick and networking listeners. Call once from client init. */
 	public static void init() {
 		HudRenderCallback.EVENT.register(HudManager::render);
-	}
+		ClientTickEvents.END_CLIENT_TICK.register(client -> HudState.tick());
+		ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> HudState.clear());
 
-	/**
-	 * Registers an indicator. Meant to be called at start-up; the instance is
-	 * then queried every frame for its current state.
-	 */
-	public static void register(HudIndicator indicator) {
-		INDICATORS.add(indicator);
+		ClientPlayNetworking.registerGlobalReceiver(HudSync.Show.ID,
+				(payload, context) -> HudState.show(payload.indicator()));
+		ClientPlayNetworking.registerGlobalReceiver(HudSync.Hide.ID,
+				(payload, context) -> HudState.hide(payload.id()));
 	}
 
 	private static void render(DrawContext context, RenderTickCounter tickCounter) {
-		if (INDICATORS.isEmpty()) {
+		List<HudState.Entry> entries = HudState.sorted();
+		if (entries.isEmpty()) {
 			return;
 		}
 
@@ -55,28 +56,20 @@ public final class HudManager {
 			return;
 		}
 
-		List<HudIndicator> visible = new ArrayList<>();
-		for (HudIndicator indicator : INDICATORS) {
-			if (indicator.shouldRender()) {
-				visible.add(indicator);
+		HudConfig config = HudConfig.INSTANCE;
+		VISIBLE.clear();
+		for (HudState.Entry entry : entries) {
+			if (VISIBLE.size() >= config.maxVisible) {
+				break;
 			}
+			if (!config.showCooldowns && entry.indicator().value() instanceof HudValue.Cooldown) {
+				continue;
+			}
+			VISIBLE.add(entry);
 		}
-		if (visible.isEmpty()) {
-			return;
-		}
 
-		visible.sort(Comparator.comparingInt(indicator -> indicator.priority().ordinal()));
-
-		TextRenderer textRenderer = client.textRenderer;
-		int lineHeight = textRenderer.fontHeight;
-		int screenWidth = context.getScaledWindowWidth();
-		int shown = Math.min(visible.size(), MAX_VISIBLE);
-
-		for (int i = 0; i < shown; i++) {
-			Text text = visible.get(i).text();
-			int x = screenWidth - textRenderer.getWidth(text) - MARGIN;
-			int y = MARGIN + i * (lineHeight + LINE_GAP);
-			context.drawTextWithShadow(textRenderer, text, x, y, TEXT_COLOR);
+		if (!VISIBLE.isEmpty()) {
+			HudRenderer.draw(context, client.textRenderer, VISIBLE);
 		}
 	}
 }

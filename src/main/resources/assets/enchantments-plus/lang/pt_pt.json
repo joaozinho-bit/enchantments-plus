@@ -1,0 +1,13 @@
+{
+	"enchantment.enchantments-plus.wither": "Definhamento",
+	"enchantment.enchantments-plus.vampirism": "Vampirismo",
+	"enchantment.enchantments-plus.storm": "Tempestade",
+	"enchantment.enchantments-plus.crush": "Esmagamento",
+
+	"hud.enchantments-plus.seconds": "%ss",
+	"hud.enchantments-plus.counter": "x%s",
+	"hud.enchantments-plus.state.ready": "Pronto",
+	"hud.enchantments-plus.state.charging": "A carregar",
+	"hud.enchantments-plus.state.active": "Ativo",
+	"hud.enchantments-plus.state.cooldown": "Recarga"
+}

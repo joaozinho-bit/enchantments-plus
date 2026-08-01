@@ -31,6 +31,18 @@ public final class ModEnchantments {
 
 	private static final List<RegistryKey<Enchantment>> REGISTERED = new ArrayList<>();
 
+	/** Swords: hitting an entity withers it for longer at higher levels. */
+	public static final RegistryKey<Enchantment> WITHER = register("wither");
+
+	/** Swords: every hit heals back part of the damage dealt. */
+	public static final RegistryKey<Enchantment> VAMPIRISM = register("vampirism");
+
+	/** Swords: a critical hit may call lightning down on the target. */
+	public static final RegistryKey<Enchantment> STORM = register("storm");
+
+	/** Swords: a hit may drop an anvil on the target. */
+	public static final RegistryKey<Enchantment> CRUSH = register("crush");
+
 	private ModEnchantments() {
 	}
 

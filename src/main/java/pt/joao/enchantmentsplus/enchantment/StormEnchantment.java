@@ -52,7 +52,7 @@ public final class StormEnchantment {
 	 * @param registry the registry being bootstrapped
 	 */
 	public static void bootstrap(Registerable<Enchantment> registry) {
-		SwordEnchantments.register(registry, ModEnchantments.STORM, 2, 3, 15, 65, 4);
+		EnchantmentDefinitions.sword(registry, ModEnchantments.STORM, 2, 3, 15, 65, 4);
 	}
 
 	/**

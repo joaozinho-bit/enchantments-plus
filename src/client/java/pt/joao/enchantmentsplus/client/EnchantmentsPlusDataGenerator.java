@@ -13,6 +13,7 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import pt.joao.enchantmentsplus.enchantment.CrushEnchantment;
+import pt.joao.enchantmentsplus.enchantment.HeartyEnchantment;
 import pt.joao.enchantmentsplus.enchantment.StormEnchantment;
 import pt.joao.enchantmentsplus.enchantment.VampirismEnchantment;
 import pt.joao.enchantmentsplus.enchantment.WitherEnchantment;
@@ -45,6 +46,7 @@ public class EnchantmentsPlusDataGenerator implements DataGeneratorEntrypoint {
 		VampirismEnchantment.bootstrap(registry);
 		StormEnchantment.bootstrap(registry);
 		CrushEnchantment.bootstrap(registry);
+		HeartyEnchantment.bootstrap(registry);
 	}
 
 	/**

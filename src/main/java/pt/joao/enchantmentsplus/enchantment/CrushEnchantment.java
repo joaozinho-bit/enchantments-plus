@@ -65,7 +65,7 @@ public final class CrushEnchantment {
 	 * @param registry the registry being bootstrapped
 	 */
 	public static void bootstrap(Registerable<Enchantment> registry) {
-		SwordEnchantments.register(registry, ModEnchantments.CRUSH, 2, 3, 15, 65, 4);
+		EnchantmentDefinitions.sword(registry, ModEnchantments.CRUSH, 2, 3, 15, 65, 4);
 	}
 
 	/**

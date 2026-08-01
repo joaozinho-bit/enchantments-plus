@@ -43,6 +43,9 @@ public final class ModEnchantments {
 	/** Swords: a hit may drop an anvil on the target. */
 	public static final RegistryKey<Enchantment> CRUSH = register("crush");
 
+	/** Armour: every enchanted piece raises the wearer's maximum health. */
+	public static final RegistryKey<Enchantment> HEARTY = register("hearty");
+
 	private ModEnchantments() {
 	}
 

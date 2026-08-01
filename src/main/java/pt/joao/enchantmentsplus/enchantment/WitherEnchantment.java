@@ -44,7 +44,7 @@ public final class WitherEnchantment {
 	 * @param registry the registry being bootstrapped
 	 */
 	public static void bootstrap(Registerable<Enchantment> registry) {
-		SwordEnchantments.register(registry, ModEnchantments.WITHER, 2, 3, 10, 60, 4);
+		EnchantmentDefinitions.sword(registry, ModEnchantments.WITHER, 2, 3, 10, 60, 4);
 	}
 
 	/**

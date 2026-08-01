@@ -1,6 +1,7 @@
 package pt.joao.enchantmentsplus.client;
 
 import net.fabricmc.api.ClientModInitializer;
+import pt.joao.enchantmentsplus.client.health.HealthAdjustment;
 import pt.joao.enchantmentsplus.client.hud.HudManager;
 
 /**
@@ -11,5 +12,6 @@ public class EnchantmentsPlusClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		HudManager.init();
+		HealthAdjustment.init();
 	}
 }

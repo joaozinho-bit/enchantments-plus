@@ -42,7 +42,7 @@ public final class VampirismEnchantment {
 	 * @param registry the registry being bootstrapped
 	 */
 	public static void bootstrap(Registerable<Enchantment> registry) {
-		SwordEnchantments.register(registry, ModEnchantments.VAMPIRISM, 2, 3, 15, 65, 4);
+		EnchantmentDefinitions.sword(registry, ModEnchantments.VAMPIRISM, 2, 3, 15, 65, 4);
 	}
 
 	/**

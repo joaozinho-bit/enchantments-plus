@@ -1,0 +1,20 @@
+{
+  "anvil_cost": 8,
+  "description": {
+    "translate": "enchantment.enchantments-plus.burning_protection"
+  },
+  "max_cost": {
+    "base": 75,
+    "per_level_above_first": 20
+  },
+  "max_level": 1,
+  "min_cost": {
+    "base": 25,
+    "per_level_above_first": 20
+  },
+  "slots": [
+    "armor"
+  ],
+  "supported_items": "#minecraft:enchantable/armor",
+  "weight": 1
+}

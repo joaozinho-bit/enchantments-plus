@@ -8,6 +8,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
+import pt.joao.enchantmentsplus.enchantment.AttackSpeedEnchantment;
 import pt.joao.enchantmentsplus.enchantment.CrushEnchantment;
 import pt.joao.enchantmentsplus.enchantment.StormEnchantment;
 import pt.joao.enchantmentsplus.enchantment.VampirismEnchantment;
@@ -60,6 +61,7 @@ public final class AttackEvents {
 		WitherEnchantment.onHit(attack);
 		VampirismEnchantment.onHit(attack, damageTaken);
 		CrushEnchantment.onHit(attack);
+		AttackSpeedEnchantment.onHit(attack);
 	}
 
 	/**

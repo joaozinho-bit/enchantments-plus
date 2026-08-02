@@ -50,21 +50,24 @@ public final class TimedEffectManager {
 	 *                     cooldown-only effect)
 	 * @param cooldownTicks length of the cooldown afterwards, in ticks
 	 *                      ({@code 0} for no cooldown)
+	 * @param onTick       run on every tick of the active phase, e.g. to watch
+	 *                      for a condition; may be {@code null}
 	 * @param onEnd        run when the active phase ends, e.g. to undo a
 	 *                      modifier; may be {@code null}
 	 * @return the created effect
 	 */
 	public static TimedEffect start(ServerPlayerEntity player, Identifier id,
-			int activeTicks, int cooldownTicks, Consumer<ServerPlayerEntity> onEnd) {
-		TimedEffect effect = new TimedEffect(activeTicks, cooldownTicks, onEnd);
+			int activeTicks, int cooldownTicks,
+			Consumer<ServerPlayerEntity> onTick, Consumer<ServerPlayerEntity> onEnd) {
+		TimedEffect effect = new TimedEffect(activeTicks, cooldownTicks, onTick, onEnd);
 		EFFECTS.computeIfAbsent(player.getUuid(), uuid -> new HashMap<>()).put(id, effect);
 		return effect;
 	}
 
-	/** Starts an effect with no end callback. */
+	/** Starts an effect that only runs an end callback. */
 	public static TimedEffect start(ServerPlayerEntity player, Identifier id,
-			int activeTicks, int cooldownTicks) {
-		return start(player, id, activeTicks, cooldownTicks, null);
+			int activeTicks, int cooldownTicks, Consumer<ServerPlayerEntity> onEnd) {
+		return start(player, id, activeTicks, cooldownTicks, null, onEnd);
 	}
 
 	/**

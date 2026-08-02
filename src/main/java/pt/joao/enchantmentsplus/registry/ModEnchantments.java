@@ -46,6 +46,36 @@ public final class ModEnchantments {
 	/** Armour: every enchanted piece raises the wearer's maximum health. */
 	public static final RegistryKey<Enchantment> HEARTY = register("hearty");
 
+	/** Armour: a complete enchanted set makes the wearer immune to burning. */
+	public static final RegistryKey<Enchantment> BURNING_PROTECTION = register("burning_protection");
+
+	/** Tools and weapons: drops go straight into the inventory. */
+	public static final RegistryKey<Enchantment> TELEKINESIS = register("telekinesis");
+
+	/** Mining tools: drops come out already smelted. */
+	public static final RegistryKey<Enchantment> AUTO_SMELT = register("auto_smelt");
+
+	/** Pickaxes and shovels: mining without pause builds up speed. */
+	public static final RegistryKey<Enchantment> MOMENTUM = register("momentum");
+
+	/** Swords: a hit may set off a brief frenzy of faster attacks. */
+	public static final RegistryKey<Enchantment> ATTACK_SPEED = register("attack_speed");
+
+	/** Boots: a jump can be charged up, and its landing costs nothing. */
+	public static final RegistryKey<Enchantment> JUMP = register("jump");
+
+	/** Anything with durability: the item stops wearing out. */
+	public static final RegistryKey<Enchantment> ETERNAL = register("eternal");
+
+	/** Boots: movement speed the wearer switches on and off. */
+	public static final RegistryKey<Enchantment> SPEED = register("speed");
+
+	/** Helmets: night vision the wearer switches on and off. */
+	public static final RegistryKey<Enchantment> NIGHT_VISION = register("night_vision");
+
+	/** Pickaxes and shovels: a swing that can be widened to a whole face. */
+	public static final RegistryKey<Enchantment> EXCAVATOR = register("excavator");
+
 	private ModEnchantments() {
 	}
 

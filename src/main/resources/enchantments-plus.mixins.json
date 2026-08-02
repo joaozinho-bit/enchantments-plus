@@ -4,6 +4,9 @@
 	"package": "pt.joao.enchantmentsplus.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
+		"BlockMixin",
+		"ItemStackMixin",
+		"LivingEntityMixin",
 		"ServerPlayerEntityMixin"
 	],
 	"injectors": {

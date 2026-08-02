@@ -14,7 +14,7 @@ import pt.joao.enchantmentsplus.config.ConfigHolder;
 import pt.joao.enchantmentsplus.config.ConfigManager;
 import pt.joao.enchantmentsplus.networking.HealthSync;
 import pt.joao.enchantmentsplus.registry.ModEnchantments;
-import pt.joao.enchantmentsplus.util.EnchantmentLevels;
+import pt.joao.enchantmentsplus.util.ArmorSet;
 
 /**
  * Hearty: armour that makes its wearer harder to finish off.
@@ -111,9 +111,13 @@ public final class HeartyEnchantment {
 			// only above 9 drumsticks, and charge the food bar for every half
 			// heart. Granting the health outright sidesteps all three.
 			entity.setHealth(entity.getHealth() + (float) (bonus - previous));
-		} else if (bonus < previous && entity instanceof ServerPlayerEntity player) {
-			// The clamp that vanilla is about to apply would otherwise be drawn
-			// as damage on the client.
+		} else if (bonus < previous && entity instanceof ServerPlayerEntity player
+				&& player.getHealth() > player.getMaxHealth()) {
+			// Only warn when a clamp is genuinely coming: the maximum has
+			// already dropped here, so health above it means vanilla is about
+			// to cut it back and the client would draw that as damage. A wearer
+			// who was already below the new maximum loses nothing, and opening
+			// the window anyway could swallow the flash of real damage.
 			HealthSync.notifyLowered(player);
 		}
 	}
@@ -121,12 +125,8 @@ public final class HeartyEnchantment {
 	/** @return the total bonus the worn armour is worth, in health points */
 	private static double bonusFor(LivingEntity entity, HeartyConfig settings) {
 		double hearts = 0.0;
-		for (EquipmentSlot slot : EquipmentSlot.values()) {
-			if (slot.getType() != EquipmentSlot.Type.HUMANOID_ARMOR) {
-				continue;
-			}
-			if (EnchantmentLevels.effective(
-					entity.getWorld(), entity.getEquippedStack(slot), ModEnchantments.HEARTY, settings) > 0) {
+		for (EquipmentSlot slot : ArmorSet.SLOTS) {
+			if (ArmorSet.has(entity, slot, ModEnchantments.HEARTY, settings)) {
 				hearts += heartsFor(slot, settings);
 			}
 		}

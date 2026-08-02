@@ -36,7 +36,7 @@ final class HudFormatter {
 	static Text format(HudIndicator indicator, int elapsedTicks) {
 		HudConfig config = HudConfig.INSTANCE;
 
-		List<Text> parts = new ArrayList<>(3);
+		List<Text> parts = new ArrayList<>(4);
 		if (!indicator.icon().isEmpty()) {
 			parts.add(Text.literal(indicator.icon()));
 		}
@@ -46,6 +46,10 @@ final class HudFormatter {
 		Text value = value(indicator.value(), elapsedTicks, config);
 		if (value != null) {
 			parts.add(value);
+		}
+		Text left = timeLeft(indicator, elapsedTicks, config);
+		if (left != null) {
+			parts.add(left);
 		}
 
 		MutableText line = Text.empty();
@@ -74,6 +78,26 @@ final class HudFormatter {
 		};
 	}
 
+	/**
+	 * How much of an indicator's lifetime is left, as a bar.
+	 *
+	 * <p>Generic: any indicator that expires on its own can show it, which is
+	 * what lets a decaying counter say both how many and how long without
+	 * needing a shape of its own. Timers and cooldowns are skipped because they
+	 * already say it in words.
+	 *
+	 * @return the bar, or {@code null} when there is nothing to count down
+	 */
+	private static Text timeLeft(HudIndicator indicator, int elapsedTicks, HudConfig config) {
+		if (!config.showTimeBars || indicator.lifetimeTicks() <= 0) {
+			return null;
+		}
+		if (indicator.value() instanceof HudValue.Timer || indicator.value() instanceof HudValue.Cooldown) {
+			return null;
+		}
+		return bar(1.0F - (float) elapsedTicks / indicator.lifetimeTicks(), config);
+	}
+
 	private static Text seconds(int ticks, boolean precise) {
 		float remaining = Math.max(0, ticks) / (float) TICKS_PER_SECOND;
 		String formatted = precise
@@ -83,7 +107,7 @@ final class HudFormatter {
 	}
 
 	private static Text bar(float progress, HudConfig config) {
-		int filled = Math.round(progress * config.barWidth);
+		int filled = Math.round(Math.clamp(progress, 0.0F, 1.0F) * config.barWidth);
 		StringBuilder bar = new StringBuilder(config.barWidth);
 		for (int i = 0; i < config.barWidth; i++) {
 			bar.append(i < filled ? config.barFilled : config.barEmpty);

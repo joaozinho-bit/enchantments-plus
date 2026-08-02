@@ -45,6 +45,14 @@ public final class HudConfig {
 	/** Whether indicators that are only counting a cooldown down are drawn. */
 	public boolean showCooldowns = true;
 
+	/**
+	 * Whether an indicator that expires on its own also shows how long it has
+	 * left, as a bar after its value.
+	 *
+	 * <p>Skipped for timers and cooldowns, which already say it in words.
+	 */
+	public boolean showTimeBars = true;
+
 	/** Number of segments in a progress bar. */
 	public int barWidth = 10;
 

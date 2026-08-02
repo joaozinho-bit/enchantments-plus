@@ -1,6 +1,16 @@
-// 1.21.1	2026-08-01T16:57:00.8105105	Enchantments Plus/Enchantments
+// 1.21.1	2026-08-02T15:25:28.4637715	Enchantments Plus/Enchantments
+d05f58f9a48e911470d7dd8fcfe1701b104438e0 data\enchantments-plus\enchantment\speed.json
+98e9ec2c7691f435bba4a773ad287673457f0c77 data\enchantments-plus\enchantment\eternal.json
+d4f2ba936ac90e2779a5b4db84378ae980cdb845 data\enchantments-plus\enchantment\auto_smelt.json
 677b32847696734b00c3e16d632c241209235cb9 data\enchantments-plus\enchantment\vampirism.json
+84374087feb57430d087e532a9fcddab21fdd2bc data\enchantments-plus\enchantment\attack_speed.json
+dbaaaae63e89171029ce7f8437b5e99c1a12419e data\enchantments-plus\enchantment\burning_protection.json
 2b54a7dbadffa10f8ae379ac7ef1788c86d498db data\enchantments-plus\enchantment\storm.json
+58b925aec040257fd85999c10d7221d5d12a8a7a data\enchantments-plus\enchantment\jump.json
+75a3a83d3fdbba0cc09356b16de64024939b0ca2 data\enchantments-plus\enchantment\momentum.json
+88139e7f9835e1a71457b5e19b766310ba479bcc data\enchantments-plus\enchantment\excavator.json
+78ba75d458b71f620f48e71ecd06f92b89d368a4 data\enchantments-plus\enchantment\telekinesis.json
 a3a19b5d259fd21aea213eee732252651bf7da25 data\enchantments-plus\enchantment\wither.json
+b7f949702233a186a671a85f2cf4bdd6a5a5fea1 data\enchantments-plus\enchantment\night_vision.json
 58f40a7cc0f20068379ddd42bcfb708e3796cfef data\enchantments-plus\enchantment\crush.json
 4901dd63a614f62a33fc0e7540adea572ab7a926 data\enchantments-plus\enchantment\hearty.json

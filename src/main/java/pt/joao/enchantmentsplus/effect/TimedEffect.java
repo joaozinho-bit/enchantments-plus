@@ -21,11 +21,14 @@ public final class TimedEffect {
 	private int activeTicks;
 	private int cooldownTicks;
 	private EffectState state;
+	private final Consumer<ServerPlayerEntity> onTick;
 	private final Consumer<ServerPlayerEntity> onEnd;
 
-	TimedEffect(int activeTicks, int cooldownTicks, Consumer<ServerPlayerEntity> onEnd) {
+	TimedEffect(int activeTicks, int cooldownTicks,
+			Consumer<ServerPlayerEntity> onTick, Consumer<ServerPlayerEntity> onEnd) {
 		this.activeTicks = Math.max(0, activeTicks);
 		this.cooldownTicks = Math.max(0, cooldownTicks);
+		this.onTick = onTick;
 		this.onEnd = onEnd;
 		this.state = this.activeTicks > 0 ? EffectState.ACTIVE
 				: this.cooldownTicks > 0 ? EffectState.COOLDOWN
@@ -35,19 +38,27 @@ public final class TimedEffect {
 	/**
 	 * Advances the effect by one tick.
 	 *
-	 * <p>The {@code onEnd} callback runs here, when the active phase finishes.
-	 * It must not start, cancel or otherwise modify this player's effects.
+	 * <p>{@code onTick} runs on every tick of the active phase and {@code onEnd}
+	 * once when that phase finishes. Both run inside the manager's own
+	 * iteration, so neither may start, cancel or otherwise modify this player's
+	 * effects; an effect that wants to stop early clears its own state and lets
+	 * the window run out harmlessly.
 	 *
 	 * @param player the online player this effect belongs to
 	 * @return {@code true} while the effect is still running or cooling down,
 	 *         {@code false} once it is done and can be discarded
 	 */
 	boolean tick(ServerPlayerEntity player) {
-		if (state == EffectState.ACTIVE && --activeTicks <= 0) {
-			if (onEnd != null) {
-				onEnd.accept(player);
+		if (state == EffectState.ACTIVE) {
+			if (onTick != null) {
+				onTick.accept(player);
 			}
-			state = cooldownTicks > 0 ? EffectState.COOLDOWN : EffectState.READY;
+			if (--activeTicks <= 0) {
+				if (onEnd != null) {
+					onEnd.accept(player);
+				}
+				state = cooldownTicks > 0 ? EffectState.COOLDOWN : EffectState.READY;
+			}
 		} else if (state == EffectState.COOLDOWN && --cooldownTicks <= 0) {
 			state = EffectState.READY;
 		}

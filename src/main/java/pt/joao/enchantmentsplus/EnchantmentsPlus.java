@@ -6,15 +6,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.joao.enchantmentsplus.config.ConfigManager;
 import pt.joao.enchantmentsplus.effect.TimedEffectManager;
+import pt.joao.enchantmentsplus.enchantment.AttackSpeedEnchantment;
+import pt.joao.enchantmentsplus.enchantment.AutoSmeltEnchantment;
+import pt.joao.enchantmentsplus.enchantment.BurningProtectionEnchantment;
 import pt.joao.enchantmentsplus.enchantment.CrushEnchantment;
+import pt.joao.enchantmentsplus.enchantment.EternalEnchantment;
+import pt.joao.enchantmentsplus.enchantment.ExcavatorEnchantment;
 import pt.joao.enchantmentsplus.enchantment.HeartyEnchantment;
+import pt.joao.enchantmentsplus.enchantment.JumpEnchantment;
+import pt.joao.enchantmentsplus.enchantment.MomentumEnchantment;
+import pt.joao.enchantmentsplus.enchantment.NightVisionEnchantment;
+import pt.joao.enchantmentsplus.enchantment.SpeedEnchantment;
 import pt.joao.enchantmentsplus.enchantment.StormEnchantment;
+import pt.joao.enchantmentsplus.enchantment.TelekinesisEnchantment;
 import pt.joao.enchantmentsplus.enchantment.VampirismEnchantment;
 import pt.joao.enchantmentsplus.enchantment.WitherEnchantment;
 import pt.joao.enchantmentsplus.event.AttackEvents;
+import pt.joao.enchantmentsplus.event.DamageEvents;
 import pt.joao.enchantmentsplus.event.EntityEvents;
+import pt.joao.enchantmentsplus.event.MiningEvents;
 import pt.joao.enchantmentsplus.networking.HealthSync;
 import pt.joao.enchantmentsplus.networking.HudSync;
+import pt.joao.enchantmentsplus.networking.JumpSync;
+import pt.joao.enchantmentsplus.networking.ToggleSync;
 import pt.joao.enchantmentsplus.registry.ModEnchantments;
 
 /**
@@ -45,6 +59,8 @@ public class EnchantmentsPlus implements ModInitializer {
 		// rather than in the client entry point.
 		HudSync.init();
 		HealthSync.init();
+		JumpSync.init();
+		ToggleSync.init();
 
 		// One line per enchantment: it registers its own configuration here.
 		WitherEnchantment.init();
@@ -52,10 +68,22 @@ public class EnchantmentsPlus implements ModInitializer {
 		StormEnchantment.init();
 		CrushEnchantment.init();
 		HeartyEnchantment.init();
+		BurningProtectionEnchantment.init();
+		TelekinesisEnchantment.init();
+		AutoSmeltEnchantment.init();
+		MomentumEnchantment.init();
+		AttackSpeedEnchantment.init();
+		JumpEnchantment.init();
+		EternalEnchantment.init();
+		SpeedEnchantment.init();
+		NightVisionEnchantment.init();
+		ExcavatorEnchantment.init();
 
 		// Gameplay listeners, grouped by the kind of event they react to.
 		AttackEvents.init();
+		DamageEvents.init();
 		EntityEvents.init();
+		MiningEvents.init();
 
 		// Enchantments register their config before this call; load() then reads
 		// the file and writes back any missing defaults.

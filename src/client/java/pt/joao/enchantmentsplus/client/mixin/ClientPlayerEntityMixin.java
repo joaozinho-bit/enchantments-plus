@@ -30,12 +30,10 @@ public abstract class ClientPlayerEntityMixin {
 
 	@Inject(method = "updateHealth", at = @At("HEAD"), cancellable = true)
 	private void enchantmentsPlus$skipMaxHealthClamp(float health, CallbackInfo ci) {
-		if (!HealthAdjustment.isPending()) {
-			return;
-		}
-
 		LivingEntity self = (LivingEntity) (Object) this;
-		if (health < self.getHealth()) {
+		// Only a drop can be a clamp, and the notice is spent on the first one,
+		// so at most a single flash is ever suppressed.
+		if (health < self.getHealth() && HealthAdjustment.consume()) {
 			self.setHealth(health);
 			ci.cancel();
 		}

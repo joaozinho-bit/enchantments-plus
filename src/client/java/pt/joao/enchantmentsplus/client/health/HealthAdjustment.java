@@ -40,8 +40,21 @@ public final class HealthAdjustment {
 		ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> remaining = 0);
 	}
 
-	/** @return {@code true} while an announced drop is still expected */
-	public static boolean isPending() {
-		return remaining > 0;
+	/**
+	 * Claims the notice, if one is open.
+	 *
+	 * <p>A lowered maximum causes exactly one clamp, so the notice is good for
+	 * exactly one health update and closes as soon as it is used. Leaving it
+	 * open for the rest of the window would let it swallow the flash of real
+	 * damage that happened to land in the same fraction of a second.
+	 *
+	 * @return {@code true} if a drop was expected, in which case it is now spent
+	 */
+	public static boolean consume() {
+		if (remaining <= 0) {
+			return false;
+		}
+		remaining = 0;
+		return true;
 	}
 }
